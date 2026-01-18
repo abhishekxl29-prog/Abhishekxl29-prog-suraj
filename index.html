@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Suraj | The Legend mr.suuraj_</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --gold: #FFD700;
+            --cream: #fff3d6;
+            --dark: #0f0f0f;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: radial-gradient(circle at center, #222, #000);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Floating Balloons Background */
+        .bg-elements { position: fixed; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+        section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            perspective: 1000px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 40px;
+            padding: 50px 30px;
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.2);
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 2.8rem;
+            color: var(--gold);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            margin-bottom: 20px;
+        }
+
+        p { font-size: 1.1rem; line-height: 1.6; color: #eee; margin-bottom: 30px; }
+
+        .btn {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #000;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.4);
+            transition: 0.3s;
+        }
+
+        .btn:hover { transform: scale(1.1); box-shadow: 0 15px 30px rgba(255, 215, 0, 0.6); }
+
+        /* Animated Cake CSS */
+        .cake {
+            position: relative; width: 120px; height: 90px;
+            background: #6d4c41; border-radius: 10px 10px 0 0;
+            margin: 0 auto 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        .cake:before {
+            content: ""; position: absolute; top: -15px; left: 5px;
+            width: 110px; height: 30px; background: #f06292; border-radius: 20px;
+        }
+        .candle {
+            position: absolute; top: -45px; left: 50%; transform: translateX(-50%);
+            width: 8px; height: 30px; background: #fff; border-radius: 2px;
+        }
+        .flame {
+            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            width: 12px; height: 18px; background: orange; border-radius: 50% 50% 20% 20%;
+            animation: flicker 0.1s infinite alternate;
+        }
+
+        .legend-tag {
+            display: block; font-weight: bold; font-size: 1.5rem;
+            letter-spacing: 2px; color: #fff; margin-top: 15px;
+            background: rgba(255,215,0,0.2); padding: 5px 15px; border-radius: 10px;
+        }
+
+        .hidden { display: none; }
+        .active { display: flex; animation: slideUp 0.8s ease forwards; }
+
+        @keyframes flicker { from { opacity: 0.8; } to { opacity: 1; transform: translateX(-50%) scale(1.1); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(50px) rotateX(-10deg); } to { opacity: 1; transform: translateY(0) rotateX(0); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-elements" id="balloons"></div>
+
+    <section id="step1" class="active">
+        <div class="card">
+            <h1>Hey Suraj! 🎂</h1>
+            <p>Aaj ka din bohot special hai, kyunki aaj ek Legend ka janamdin hai! <br>Tayyar ho surprise ke liye?</p>
+            <button class="btn" onclick="next(1, 2)">Start Celebration</button>
+        </div>
+    </section>
+
+    <section id="step2" class="hidden">
+        <div class="card">
+            <h1>Stay Strong 💪</h1>
+            <p>Waqt abhi bhale hi thoda mushkil ho, par yaad rakhna... <br>Suraj ko chamakne se pehle andhere se guzarna padta hai.</p>
+            <button class="btn" onclick="next(2, 3)">Believe It</button>
+        </div>
+    </section>
+
+    <section id="step3" class="hidden">
+        <div class="card">
+            <div class="cake">
+                <div class="candle"><div class="flame"></div></div>
+            </div>
+            <h1>Happy Birthday!</h1>
+            <p>May God bless you with massive success and endless happiness.</p>
+            <span class="legend-tag">mr.suuraj_</span>
+            <button class="btn" style="margin-top:20px" onclick="finalCelebrate()">Blast Confetti 🎊</button>
+        </div>
+    </section>
+
+    <script>
+        // Smooth Section Switch
+        function next(curr, nxt) {
+            document.getElementById('step' + curr).classList.remove('active');
+            document.getElementById('step' + curr).classList.add('hidden');
+            document.getElementById('step' + nxt).classList.add('active');
+            if(nxt === 3) finalCelebrate();
+        }
+
+        // Professional Confetti
+        function finalCelebrate() {
+            var count = 200;
+            var defaults = { origin: { y: 0.7 } };
+
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+
+            fire(0.25, { spread: 26, startVelocity: 55 });
+            fire(0.2, { spread: 60 });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+            fire(0.1, { spread: 120, startVelocity: 45 });
+        }
+
+        // 3D Tilt Effect
+        document.addEventListener('mousemove', (e) => {
+            const card = document.querySelector('.active .card');
+            if(!card) return;
+            let x = (window.innerWidth / 2 - e.pageX) / 20;
+            let y = (window.innerHeight / 2 - e.pageY) / 20;
+            card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+        });
+
+        // Background Balloons
+        const bg = document.getElementById('balloons');
+        for (let i = 0; i < 20; i++) {
+            const balloon = document.createElement('div');
+            balloon.innerHTML = "🎈";
+            balloon.style.position = "absolute";
+            balloon.style.fontSize = Math.random() * 20 + 20 + "px";
+            balloon.style.left = Math.random() * 100 + "vw";
+            balloon.style.bottom = "-50px";
+            balloon.style.opacity = "0.3";
+            balloon.style.animation = `floatUp ${Math.random() * 5 + 5}s infinite linear`;
+            bg.appendChild(balloon);
+        }
+    </script>
+
+    <style>
+        @keyframes floatUp {
+            to { transform: translateY(-110vh) translateX(20px); opacity: 0; }
+        }
+    </style>
+</body>
+</html>
